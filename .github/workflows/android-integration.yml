@@ -28,7 +28,7 @@ jobs:
       - name: Unit tests
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: testObfDebugUnitTest testOffDebugUnitTest testOpfDebugUnitTest testOpffDebugUnitTest --stacktrace
+          arguments: testOffDebugUnitTest --stacktrace
 
   apk:
     name: Generate APK
