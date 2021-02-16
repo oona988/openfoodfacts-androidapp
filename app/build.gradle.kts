@@ -156,6 +156,10 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1")
     testImplementation("com.google.truth.extensions:truth-java8-extension:1.1")
 
+    // Fragment Testing
+    val fragmentVersion = "1.2.5"
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
+
     // Instrumented tests
     androidTestUtil("androidx.test:orchestrator:1.3.0")
 
