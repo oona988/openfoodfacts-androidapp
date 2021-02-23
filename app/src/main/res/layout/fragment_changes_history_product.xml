@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -24,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/nav_bar_height">
+                android:paddingBottom="@dimen/nav_bar_height"
+                android:layout_marginHorizontal="@dimen/horizontal_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,22 +39,32 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:padding="16dp"
+                        android:layout_marginVertical="15dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_gravity="center_vertical"
                         app:cardElevation="4dp">
 
-                        <TextView
-                            android:id="@+id/creator_txt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/spacing_normal"
-                            android:layout_marginTop="@dimen/spacing_tiny"
-                            android:layout_marginRight="@dimen/spacing_normal"
-                            android:layout_marginBottom="@dimen/spacing_tiny"
-                            android:focusable="true"
-                            android:gravity="center"
-                            android:padding="@dimen/spacing_small"
-                            android:textColorLink="@color/light_blue_A700" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/creator_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"/>
+
+                                <TextView
+                                    android:id="@+id/creator_text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp" />
+
+                            </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
 
@@ -81,22 +87,32 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:padding="16dp"
+                        android:layout_marginVertical="15dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_gravity="center_vertical"
                         app:cardElevation="4dp">
 
-                        <TextView
-                            android:id="@+id/last_editor_txt"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/spacing_normal"
-                            android:layout_marginTop="@dimen/spacing_tiny"
-                            android:layout_marginRight="@dimen/spacing_normal"
-                            android:layout_marginBottom="@dimen/spacing_tiny"
-                            android:focusable="true"
+                            android:layout_margin="15dp"
+                            android:layout_gravity="center"
                             android:gravity="center"
-                            android:padding="@dimen/spacing_small"
-                            android:textColorLink="@color/light_blue_A700" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/editor_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/editor_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp" />
+
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
 
@@ -105,5 +121,7 @@
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>

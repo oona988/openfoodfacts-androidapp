@@ -42,40 +42,41 @@ open class ChangesHistoryProductFragment : BaseFragment() {
         val product = this.productState.product!!
 
         if (!product.creator.isNullOrBlank()) {
-            val createdDate = getDateTime(product.createdDateTime!!)
-            val creatorTxt = getString(R.string.creator_history, createdDate.first, createdDate.second, product.creator)
-            binding.creatorTxt.movementMethod = LinkMovementMethod.getInstance()
-            binding.creatorTxt.text = creatorTxt
-            binding.timelineStart.initLine(1)
+            binding.creatorDate.text = getDate(product.createdDateTime!!)
+            val creatorText = getString(R.string.changes_history_created, product.creator)
+            binding.creatorText.movementMethod = LinkMovementMethod.getInstance()
+            binding.creatorText.text = creatorText
         } else {
-            binding.creatorTxt.visibility = View.INVISIBLE
+            binding.creatorDate.visibility = View.INVISIBLE
+            binding.creatorText.visibility = View.INVISIBLE
         }
 
         if (!product.lastModifiedBy.isNullOrBlank()) {
-            val lastEditDate = getDateTime(product.lastModifiedTime!!)
-            val editorTxt = getString(R.string.last_editor_history, lastEditDate.first, lastEditDate.second, product.lastModifiedBy)
-            binding.lastEditorTxt.movementMethod = LinkMovementMethod.getInstance()
-            binding.lastEditorTxt.text = editorTxt
+            binding.editorDate.text = getDate(product.lastModifiedTime!!)
+            val editorText = getString(R.string.changes_history_edited, product.lastModifiedBy)
+            binding.editorText.movementMethod = LinkMovementMethod.getInstance()
+            binding.editorText.text = editorText
+            binding.timelineStart.initLine(1)
             binding.timelineEnd.initLine(0)
         } else {
-            binding.lastEditorTxt.visibility = View.INVISIBLE
+            binding.timelineStart.visibility = View.INVISIBLE
+            binding.timelineEnd.visibility = View.INVISIBLE
+            binding.editorDate.visibility = View.INVISIBLE
+            binding.editorText.visibility = View.INVISIBLE
         }
     }
 
     /**
-     * Get date and time in MMMM dd, yyyy and HH:mm:ss a format
+     * Get date in MMMM dd, yyyy format
      *
      * @param dateTime date and time in milliseconds
      */
-    open fun getDateTime(dateTime: String): Pair<String, String> {
+    open fun getDate(dateTime: String): String {
         val unixSeconds = dateTime.toLong()
         val date = Date(unixSeconds * 1000L)
         val sdf = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).apply {
             timeZone = TimeZone.getTimeZone("CET")
         }
-        val sdf2 = SimpleDateFormat("HH:mm:ss a", Locale.getDefault()).apply {
-            timeZone = TimeZone.getTimeZone("CET")
-        }
-        return sdf.format(date) to sdf2.format(date)
+        return sdf.format(date)
     }
 }
