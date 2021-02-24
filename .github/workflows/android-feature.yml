@@ -24,9 +24,19 @@ jobs:
       - name: Screenshots android tests
         run: bash ./gradlew compileOffScreenshotsAndroidTestSources --stacktrace --info -PtestBuildType=screenshots
 
-      - name: Instrumented Android tests
-        run: bash ./gradlew connectedOffDebugAndroidTest --stacktrace
-
       - name: Unit tests
         run: bash ./gradlew testObfDebugUnitTest testOffDebugUnitTest testOpfDebugUnitTest testOpffDebugUnitTest --stacktrace
+
+  intrumented-tests:
+    name: Run Intrumented Android Tests
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Instrumented Android tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedOffDebugAndroidTest --stacktrace
 
