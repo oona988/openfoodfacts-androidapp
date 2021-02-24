@@ -25,7 +25,7 @@ jobs:
         run: bash ./gradlew compileOffScreenshotsAndroidTestSources --stacktrace --info -PtestBuildType=screenshots
 
       - name: Instrumented Android tests
-        run: bash ./gradlew gradlew connectedOffDebugAndroidTest --stacktrace
+        run: bash ./gradlew connectedOffDebugAndroidTest --stacktrace
 
       - name: Unit tests
         run: bash ./gradlew testObfDebugUnitTest testOffDebugUnitTest testOpfDebugUnitTest testOpffDebugUnitTest --stacktrace
