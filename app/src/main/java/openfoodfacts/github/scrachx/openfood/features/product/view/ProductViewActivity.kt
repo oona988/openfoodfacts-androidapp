@@ -257,7 +257,9 @@ class ProductViewActivity : BaseActivity(), OnRefreshListener {
                     adapter.add(ProductPhotosFragment().applyBundle(fBundle), newTitles[0])
                 }
                 adapter.add(ServerAttributesFragment.newInstance(productState), activity.getString(R.string.synthesis_tab))
-                adapter.add(ChangesHistoryProductFragment().applyBundle(fBundle), activity.getString(R.string.changes_history_tab))
+                if (preferences.getBoolean(activity.getString(R.string.pref_changes_history_tab_key), false)) {
+                    adapter.add(ChangesHistoryProductFragment().applyBundle(fBundle), activity.getString(R.string.changes_history_tab))
+                }
             } else if (isFlavors(OPFF)) {
                 adapter.add(NutritionProductFragment().applyBundle(fBundle), titles[2])
                 if (isPhotoMode(activity)) {
