@@ -183,6 +183,11 @@ dependencies {
     androidTestImplementation("com.jraska:falcon:2.1.1")
     androidTestImplementation("tools.fastlane:screengrab:1.2.0")
 
+    // Fragment Testing
+    val fragmentVersion = "1.3.0-rc01"
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
+    androidTestImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
+
     resourcePlaceholders {
         files = listOf("xml/shortcuts.xml")
     }
