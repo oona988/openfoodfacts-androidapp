@@ -134,6 +134,13 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="@string/pref_changes_history_tab_key"
+            android:title="@string/pref_changes_history_tab_title"
+            android:summaryOn="@string/pref_changes_history_tab_summary" />
+        android:summaryOff="@string/pref_changes_history_tab_summary" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/pref_show_product_photos_key"
             android:title="@string/pref_show_product_photos_title"
             android:summaryOn="@string/pref_show_product_photos_summary" />
