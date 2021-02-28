@@ -7,6 +7,7 @@ on:
       - '!develop'
       - '!master'
       - '!release/*'
+      - '!update-workflows'
 jobs:
   checks:
     runs-on: ubuntu-18.04
