@@ -10,6 +10,7 @@ import org.junit.AfterClass
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.BeforeClass
+import org.junit.Ignore
 import org.junit.Test
 import java.util.*
 
@@ -39,6 +40,7 @@ class ProductRepositoryTest {
         }
     }
 
+    @Ignore
     @Test
     fun testGetEnabledAllergens() {
         val allergens = ProductRepository.getEnabledAllergens()
@@ -47,6 +49,7 @@ class ProductRepositoryTest {
         assertEquals(TEST_ALLERGEN_TAG, allergens[0].tag)
     }
 
+    @Ignore
     @Test
     fun testGetAllergensByEnabledAndLanguageCode() {
         val enabledAllergenNames = ProductRepository.getAllergensByEnabledAndLanguageCode(true, TEST_LANGUAGE_CODE).blockingGet()
@@ -59,6 +62,7 @@ class ProductRepositoryTest {
         assertEquals("Molluschi", notEnabledAllergenNames[0].name)
     }
 
+    @Ignore
     @Test
     fun testGetAllergensByLanguageCode() {
         val allergenNames = ProductRepository.getAllergensByLanguageCode(TEST_LANGUAGE_CODE).blockingGet()
