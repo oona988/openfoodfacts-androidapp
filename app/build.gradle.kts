@@ -146,6 +146,9 @@ dependencies {
     // UI Component : Chips Input
     implementation("com.hootsuite.android:nachos:1.2.0")
 
+    // UI Component : Timeline
+    implementation("com.github.vipulasri:timelineview:1.1.5")
+
     // Crash analytics
     implementation("io.sentry:sentry-android:3.2.0")
 
