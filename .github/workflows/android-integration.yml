@@ -58,7 +58,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: reports
-          path: ./app/build/outputs/androidTest-results
+          path: ./app/build/reports/androidTests
 
   instrumented-tests-report:
     name: Report of Instrumented Android Tests
@@ -78,7 +78,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: ./app/build/outputs/androidTest-results/**/**/**/*.xml
+          files: ./app/build/reports/androidTests/**/**/**/*.xml
 
   apk:
     name: Generate APK
