@@ -35,10 +35,10 @@ jobs:
         if: ${{ always() }}
 
       - name: Publish Unit Test Results
-          uses: EnricoMi/publish-unit-test-result-action@v1
-          if: always()
-          with:
-            files: ./app/build/test-results/**/*.xml
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: ./app/build/test-results/**/*.xml
 
   intrumented-tests:
     name: Run Intrumented Android Tests
