@@ -60,6 +60,5 @@ allprojects {
             property("sonar.coverage.exclusions", "**/openfoodfacts/github/scrachx/openfood/models/*")
         }
     }
-
-
+    
 }
