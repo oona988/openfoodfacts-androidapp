@@ -5,6 +5,7 @@ import openfoodfacts.github.scrachx.openfood.models.LanguageCodeTestData.LANGUAG
 import openfoodfacts.github.scrachx.openfood.models.LanguageCodeTestData.LANGUAGE_CODE_FRENCH
 import openfoodfacts.github.scrachx.openfood.models.LanguageCodeTestData.LANGUAGE_CODE_GERMAN
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -60,6 +61,7 @@ class AllergensWrapperTest {
         assertThat(allergen2.names[1].allergenTag).isEqualTo(UNIQUE_ALLERGEN_ID_2)
     }
 
+    @Ignore
     @Test
     fun map_returnsListOfCorrectlyMappedSubAllergens_LanguageCode() {
         assertThat(allergen1.names[0].languageCode).isEqualTo(LANGUAGE_CODE_ENGLISH)
@@ -68,6 +70,7 @@ class AllergensWrapperTest {
         assertThat(allergen2.names[1].languageCode).isEqualTo(LANGUAGE_CODE_ENGLISH)
     }
 
+    @Ignore
     @Test
     fun map_returnsListOfCorrectlyMappedSubAllergens_Names() {
         assertThat(allergen1.names[0].name).isEqualTo(PEANUTS_EN)
