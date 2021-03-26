@@ -40,6 +40,28 @@ jobs:
         with:
           files: ./app/build/test-results/**/*.xml
 
+      - name: Running Jacoco Test Task
+        if: always()
+        run: bash ./gradlew jacocoTestReportOffDebug
+
+      - name: Generate Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coveragereport
+          path: ./app/build/reports/jacoco/offDebug
+
+      - name: Download Test Coverage Reports Folder
+        if: always()
+        uses: actions/download-artifact@v2
+        with:
+          name: coveragereport
+          path: ./app/build/reports/jacoco/offDebug
+
+      - name: Upload Test Coverage Report
+        if: always()
+        run: bash <(curl -s https://codecov.io/bash) -f "./app/build/reports/jacoco/offDebug/jacoco.xml"
+
   instrumented-tests:
     name: Run Intrumented Android Tests
     runs-on: macos-latest
