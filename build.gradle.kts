@@ -36,6 +36,9 @@ buildscript {
 
         classpath("io.sentry:sentry-android-gradle-plugin:1.7.36")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+
+        classpath("org.jacoco:org.jacoco.core:0.8.6")
+        classpath("com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0")
     }
 }
 

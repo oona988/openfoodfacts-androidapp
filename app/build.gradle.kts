@@ -30,6 +30,8 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("jacoco")
+    id("com.vanniktech.android.junit.jacoco")
 }
 
 fun obtainTestBuildType(): String {
