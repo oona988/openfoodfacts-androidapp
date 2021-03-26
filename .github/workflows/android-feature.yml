@@ -38,5 +38,6 @@ jobs:
           files: ./app/build/test-results/**/*.xml
 
       - name: Jacoco
+        if: always()
         run: bash ./gradlew jacocoTestReportOffDebug
 
