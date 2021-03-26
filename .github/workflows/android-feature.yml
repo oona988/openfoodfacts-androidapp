@@ -37,3 +37,6 @@ jobs:
         with:
           files: ./app/build/test-results/**/*.xml
 
+      - name: Jacoco
+        run: bash ./gradlew jacocoTestReportOffDebug
+
