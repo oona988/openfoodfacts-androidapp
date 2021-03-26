@@ -35,15 +35,27 @@ import java.util.*
 /**
  * @see R.layout.fragment_contributors
  */
-class ContributorsFragment : BaseFragment() {
-    private var _binding: FragmentContributorsBinding? = null
-    private val binding get() = _binding!!
+open class ContributorsFragment : BaseFragment() {
+    open var _binding: FragmentContributorsBinding? = null
+    open val binding get() = _binding!!
 
-    private lateinit var productState: ProductState
+    open lateinit var productState: ProductState
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentContributorsBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.incompleteStates.setOnClickListener { toggleIncompleteStatesVisibility() }
+        binding.completeStates.setOnClickListener { toggleCompleteStatesVisibility() }
+
+        binding.incompleteStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_grey_24dp, 0)
+        binding.completeStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_grey_24dp, 0)
+
+        refreshView(this.requireProductState())
     }
 
     override fun onDestroyView() {
@@ -51,16 +63,25 @@ class ContributorsFragment : BaseFragment() {
         super.onDestroyView()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        refreshView(this.requireProductState())
-    }
-
     override fun refreshView(productState: ProductState) {
         super.refreshView(productState)
         this.productState = productState
         val product = this.productState.product!!
 
+        showCreatorInformation(product)
+        showLastEditInformation(product)
+        showOtherEditorsInformation(product)
+
+        // function to show states tags
+        showStatesTags(product)
+    }
+
+    /**
+     * Show product's creator information on UI view
+     *
+     * @param product
+     */
+    open fun showCreatorInformation(product: Product) {
         if (!product.creator.isNullOrBlank()) {
             val createdDate = getDateTime(product.createdDateTime!!)
             val creatorTxt = getString(R.string.creator_history, createdDate.first, createdDate.second, product.creator)
@@ -69,7 +90,14 @@ class ContributorsFragment : BaseFragment() {
         } else {
             binding.creatorTxt.visibility = View.INVISIBLE
         }
+    }
 
+    /**
+     * Show product's last editors information on UI view
+     *
+     * @param product
+     */
+    open fun showLastEditInformation(product: Product) {
         if (!product.lastModifiedBy.isNullOrBlank()) {
             val lastEditDate = getDateTime(product.lastModifiedTime!!)
             val editorTxt = getString(R.string.last_editor_history, lastEditDate.first, lastEditDate.second, product.lastModifiedBy)
@@ -78,7 +106,14 @@ class ContributorsFragment : BaseFragment() {
         } else {
             binding.lastEditorTxt.visibility = View.INVISIBLE
         }
+    }
 
+    /**
+     * Show product's other editors information on UI view
+     *
+     * @param product
+     */
+    open fun showOtherEditorsInformation(product: Product) {
         if (product.editors.isNotEmpty()) {
             val otherEditorsTxt = getString(R.string.other_editors)
             binding.otherEditorsTxt.movementMethod = LinkMovementMethod.getInstance()
@@ -91,18 +126,14 @@ class ContributorsFragment : BaseFragment() {
         } else {
             binding.otherEditorsTxt.visibility = View.INVISIBLE
         }
-
-        // function to show states tags
-        showStatesTags(product)
-
     }
 
     /**
      * Get date and time in MMMM dd, yyyy and HH:mm:ss a format
      *
-     * @param dateTime date and time in miliseconds
+     * @param dateTime date and time in milliseconds
      */
-    private fun getDateTime(dateTime: String): Pair<String, String> {
+    open fun getDateTime(dateTime: String): Pair<String, String> {
         val unixSeconds = dateTime.toLong()
         val date = Date(unixSeconds * 1000L)
         val sdf = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault()).apply {
@@ -114,7 +145,7 @@ class ContributorsFragment : BaseFragment() {
         return sdf.format(date) to sdf2.format(date)
     }
 
-    private fun getContributorsTag(contributor: String): CharSequence {
+    open fun getContributorsTag(contributor: String): CharSequence {
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(view: View) = start(requireContext(), SearchType.CONTRIBUTOR, contributor)
         }
@@ -151,21 +182,57 @@ class ContributorsFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { e: Throwable? ->
                     Log.e(ContributorsFragment::class.simpleName, "loadStatesTags", e)
-                    binding.statesTxt.visibility = View.GONE
+                    binding.statesTagsCv.visibility = View.GONE
                 }
                 .subscribe { states: List<StatesName> ->
                     if (states.isEmpty()) {
-                        binding.statesTxt.visibility = View.GONE
+                        binding.statesTagsCv.visibility = View.GONE
                     } else {
-                        binding.statesTxt.movementMethod = LinkMovementMethod.getInstance()
-                        binding.statesTxt.text = ""
+                        binding.incompleteStatesTxt.movementMethod = LinkMovementMethod.getInstance()
+                        binding.incompleteStatesTxt.text = ""
+
+                        binding.completeStatesTxt.movementMethod = LinkMovementMethod.getInstance()
+                        binding.completeStatesTxt.text = ""
+
                         states.forEach { state ->
-                            binding.statesTxt.append(getStatesTag(state.name, state.statesTag.split(":").component2()))
-                            binding.statesTxt.append("\n")
+                            if(isIncompleteState(state.statesTag)){
+                                binding.incompleteStatesTxt.append(getStatesTag(state.name, state.statesTag.split(":").component2()))
+                                binding.incompleteStatesTxt.append("\n")
+                            }
+                            else{
+                                binding.completeStatesTxt.append(getStatesTag(state.name, state.statesTag.split(":").component2()))
+                                binding.completeStatesTxt.append("\n")
+                            }
                         }
                     }
                 }.addTo(disp)
 
+    }
+
+    private fun isIncompleteState(stateTag: String) :Boolean{
+
+        return stateTag.contains("to-be-completed") || stateTag.contains("to-be-uploaded") ||
+                                stateTag.contains("to-be-checked") || stateTag.contains("to-be-validated") || stateTag.contains("to-be-selected")
+        }
+
+    private fun toggleIncompleteStatesVisibility() {
+        if (binding.incompleteStatesTxt.visibility != View.VISIBLE) {
+            binding.incompleteStatesTxt.visibility = View.VISIBLE
+            binding.incompleteStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_up_grey_24dp, 0)
+        } else {
+            binding.incompleteStatesTxt.visibility = View.GONE
+            binding.incompleteStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_grey_24dp, 0)
+        }
+    }
+
+    private fun toggleCompleteStatesVisibility() {
+        if (binding.completeStatesTxt.visibility != View.VISIBLE) {
+            binding.completeStatesTxt.visibility = View.VISIBLE
+            binding.completeStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_up_grey_24dp, 0)
+        } else {
+            binding.completeStatesTxt.visibility = View.GONE
+            binding.completeStates.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_down_grey_24dp, 0)
+        }
     }
 
     companion object {

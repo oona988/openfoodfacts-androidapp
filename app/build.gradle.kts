@@ -30,6 +30,8 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("jacoco")
+    id("com.vanniktech.android.junit.jacoco")
 }
 
 fun obtainTestBuildType(): String {
@@ -146,6 +148,9 @@ dependencies {
     // UI Component : Chips Input
     implementation("com.hootsuite.android:nachos:1.2.0")
 
+    // UI Component : Timeline
+    implementation("com.github.vipulasri:timelineview:1.1.5")
+
     // Crash analytics
     implementation("io.sentry:sentry-android:3.2.0")
 
@@ -179,6 +184,11 @@ dependencies {
     }
     androidTestImplementation("com.jraska:falcon:2.1.1")
     androidTestImplementation("tools.fastlane:screengrab:1.2.0")
+
+    // Fragment Testing
+    val fragmentVersion = "1.3.0-rc01"
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
+    androidTestImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
 
     resourcePlaceholders {
         files = listOf("xml/shortcuts.xml")
@@ -353,7 +363,7 @@ kapt {
     }
 }
 
-greendao { schemaVersion(20) }
+greendao { schemaVersion(21) }
 
 
 
